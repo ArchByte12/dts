@@ -1,0 +1,20 @@
+#Error
+
+ErrorDocument 404 /i-OSCA/404.php
+
+<ifModule mod_rewrite.c>
+
+#Enable Rewrite Engine on 
+RewriteEngine On
+
+#Rewrite Condition for Directory
+RewriteCond %{REQUEST_FILENAME} !-d
+
+#Rewrite Condition for File
+RewriteCond %{REQUEST_FILENAME} !-f
+
+#Rewrite Rule
+RewriteRule ^([^\.]+)$ $1.php [NC,L] 
+</IfModule>
+
+Options All -Indexes

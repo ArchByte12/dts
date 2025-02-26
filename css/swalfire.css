@@ -1,0 +1,40 @@
+/* Customizing SweetAlert2 */
+.swal2-popup {
+    border-radius: 8px; /* Rounded corners */
+    font-family: 'Arial', sans-serif; /* Simple font */
+    background-color: #f5f5f5; /* Light background */
+    color: #333; /* Dark text color for better contrast */
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Add padding for spacing */
+}
+
+.swal2-title {
+    font-size: 14px; /* Slightly larger title */
+    font-weight: 600; /* Make the title bold */
+    margin-bottom: 10px; /* Add some space below the title */
+}
+
+.swal2-content {
+    font-size: 12px; /* Content text size */
+    color: #666; /* Slightly lighter text color */
+}
+
+.swal2-button {
+    background-color: #4CAF50; /* Green button */
+    color: #fff; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    border: none;
+    /* padding: 12px 24px; Button padding */
+    font-size: 12px; /* Font size for button */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.swal2-button:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}
+
+.swal2-close {
+    color: transparent; /* Hide the close button */
+}

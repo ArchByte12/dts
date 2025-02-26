@@ -1,95 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DepED Document Tracking System</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- icon -->
+    <link rel="icon" href="media/DepED logo.png">
+    <!-- default.css -->
+    <link rel="stylesheet" href="css/default.css">
+    <!-- index.css -->
+    <link rel="stylesheet" href="css/index.css">
+    <!-- sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- swalfire -->
+    <link rel="stylesheet" href="css/swalfire.css">
+    <!-- default css -->
+    <link rel="stylesheet" href="css/default.css">
 </head>
+
 <body>
     <div class="form-container">
         <div class="form-header">
             <div class="tab" id="login-tab">Login</div>
-            <div class="tab" id="signup-tab">Sign Up</div>
+            <div class="tab" id="guest-tab">Guest</div>
         </div>
 
         <!-- Login Form -->
-         <div id="logo">
-            <img src="IMG/DepED logo.png" class="logo">
-         </div>
+        <div id="logo">
+            <img src="media/DepED logo.png" class="logo">
+        </div>
         <div id="login-form" class="form">
             <h2>Login</h2>
-            <form>
-                <input type="username" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit">Log In</button>
+            <form id="loginForm" name="loginForm" method="POST">
+                <input type="username" name="username" id="username" placeholder="Username" required>
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <button type="submit" class="login" id="login">Log In</button>
             </form>
-            <a href="#" class="forgot-password">Forgot Password?</a>
         </div>
 
-        <!-- Sign Up Form -->
-        <div id="signup-form" class="form" style="display:none;">
-            <h2>Sign Up</h2>
+        <!-- Guest View -->
+        <div id="guest-view" class="form" style="display:none;">
+            <h2>Track Document</h2>
             <form>
-                <input type="text" placeholder="Full Name ex. Archelly L. Bautista" required>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <input type="password" placeholder="Confirm Password" required>
-                <select name="usertype" placeholder="Choose User Type" required>
-                    <option value="officedesignation">Choose User Type</option>
-                    <option value="user1">User 1</option>
-                    <option value="user2">User 2</option>
+                <input type="text" placeholder="Tracking Number" required>
                 </select>
-                <select name="office" placeholder="Choose your Designated Office" required>
-                <option value="officedesignation">Select Office Designation</option>
-                <option value="ict">ICT Section</option>
-                <option value="records">Records Section</option>
-                <option value="osds">OSDS Section</option>
-                <option value="asds">ASDS Section</option>
-                <option value="legalunit">Legal Unit</option>
-                <option value="sgod">SGOD Section</option>
-                <option value="supply">Supply Section</option>
-                <option value="personnel">Personnel Section</option>                
-                <option value="accounting">Accounting Section</option>
-                <option value="budget">Budget Section</option>
-                <option value="cashier">Cashier Section</option>
-                </select>
-                <button type="submit">Sign Up</button>
+                <button type="submit">Find</button>
             </form>
-          
-            </div>
-        <!-- Guest Viewing Option -->
-       
-        <div class="guest-viewing">
-        <p class="or">or</p>
-            <p><a href="guestview.php">Continue as Guest</a></p>
+
         </div>
-    </div>
     </div>
 
     <script>
-        // Toggle between login and sign-up forms
-        document.getElementById('login-tab').addEventListener('click', () => {
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('signup-form').style.display = 'none';
-            document.getElementById('login-tab').classList.add('active');
-            document.getElementById('signup-tab').classList.remove('active');
-        });
+    // Toggle between login and guest forms
+    document.getElementById('login-tab').addEventListener('click', () => {
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('guest-view').style.display = 'none';
+        document.getElementById('login-tab').classList.add('active');
+        document.getElementById('guest-tab').classList.remove('active');
+    });
 
-        document.getElementById('signup-tab').addEventListener('click', () => {
-            document.getElementById('signup-form').style.display = 'block';
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('signup-tab').classList.add('active');
-            document.getElementById('login-tab').classList.remove('active');
-        });
+    document.getElementById('guest-tab').addEventListener('click', () => {
+        document.getElementById('guest-view').style.display = 'block';
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('guest-tab').classList.add('active');
+        document.getElementById('login-tab').classList.remove('active');
+    });
+
+    // tab.active
+    document.getElementById('login-tab').classList.add('active');
     </script>
 
     <footer>
         <p>&copy; <span id="year"></span> DepED Document Tracking System. All rights reserved. </p>
     </footer>
     <script>
-        //footer
-            document.getElementById('year').textContent =new Date().getFullYear();
+    //footer
+    document.getElementById('year').textContent = new Date().getFullYear();
     </script>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jquery login -->
+    <script src="js/login.js"></script>
 </body>
+
 </html>

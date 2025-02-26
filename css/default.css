@@ -1,0 +1,165 @@
+/* Default body, font styles , etc*/
+body{
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Top Header styles */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    color: 333;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* header line */
+    border-bottom: 1px solid #ddd;
+    font-weight: 300;
+  }
+  
+  /* Hamburger menu */
+  .hamburger-menu, a {
+    font-size: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    /* remove style in a */
+    text-decoration: none;
+    color: #333;
+  }
+  /* Space between menu and span */
+  .hamburger-menu span {
+    margin-left: 10px;
+    font-weight: bold;
+  }
+  
+  /* User settings */
+  .user-settings {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-settings{
+    color: #333;
+    padding: 5px;
+    /* size */
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .user-settings i{
+    /* size */
+    font-size: 20px;
+    padding: 5px;
+    margin-right: 10px;
+  }
+
+  .user-settings img{
+    border-radius: 50%;
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .user-avatar {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .user-name {
+    color: white;
+    font-size: 16px;
+  }
+  
+  /* Side navigation styles */
+  .side-nav {
+    position: absolute;
+    left: -250px; /* Hidden by default */
+    width: 250px;
+    height: calc(95% - 50px);
+    /* height: 100%; */
+    background-color: #fff;
+    transition: 0.3s;
+    z-index: 999;
+    /* Right line */
+    border-right: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .side-nav.active {
+    left: 0; /* When active, show the side nav */
+  }
+  
+  .side-nav ul {
+    list-style-type: none;  
+    padding: 0;
+  }
+  
+  .side-nav ul li {
+    padding: 10px 20px;
+    border-bottom: 1px solid #444;
+  }
+  
+  .side-nav ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 5px;
+    display: block;
+  }
+
+  .side-nav i{
+    padding-right: 10px;
+  }
+
+  /* fa-bell */
+  .fa-bell {
+    position: relative;
+    margin-right: auto;
+  }
+
+  /* logout form */
+  /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  text-align: center;
+  border-radius: 10px;
+}
+
+/* center content */
+.content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+}
