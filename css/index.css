@@ -1,0 +1,219 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.logo {
+    height: auto;
+    width: 150px;
+    margin-bottom: -20px;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.tab {
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px;
+    flex: 1;
+    transition: background-color 0.3s;
+}
+
+.tab.active {
+    background-color: #0a488a;
+    color: #fff;
+    border-radius: 10px 0 10px 0;
+}
+
+.tab:hover {
+    background-color: gray;
+    color: #fff;
+    border-radius: 0 10px 0 10px;
+}
+
+.form input,
+.form select {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form button {
+    width: 100%;
+    padding: 5px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4%;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.form select[name="usertype"],
+select[name="office"],
+select option[value="officedesignation"] {
+    color: gray;
+}
+
+.form option {
+    color: black;
+}
+
+.form button {
+    background-color: #0a488a;
+    color: #fff;
+    cursor: pointer;
+}
+
+.form button:hover {
+    background-color: #0a488a;
+}
+
+.forgot-password {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #1963b3;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+h2 {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 20px;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px;
+    }
+
+    .tab {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-container {
+        padding: 15px;
+        width: 90%;
+    }
+
+    .form input,
+    .form button {
+        font-size: 14px;
+    }
+
+    .tab {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+label {
+    align-items: center;
+    font-size: 14px;
+    margin-right: 150px;
+}
+
+input[type="checkbox"] {
+    margin-right: -100px;
+}
+
+.guest-viewing {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.guest-viewing a {
+    color: #1963b3;
+    text-decoration: none;
+}
+
+.guest-viewing a:hover {
+    text-decoration: underline;
+}
+
+.or {
+    color: gray;
+    margin-top: -20px;
+}
+
+footer {
+    text-align: right;
+    padding: 5px;
+    color: gray;
+    position: fixed;
+    bottom: -10px;
+    width: 100%;
+    font-size: 12px;
+}
+
+.modal-header.bg-primary {
+    background-color: #007bff;
+    border-bottom: 2px solid #0056b3;
+}
+
+.modal-header .close {
+    color: #fff;
+}
+
+.modal-body .container {
+    padding: 0;
+}
+
+.modal-body .row {
+    margin-bottom: 10px;
+}
+
+.modal-body .col-md-6 {
+    padding: 0;
+}
+
+.modal-body .font-weight-bold {
+    font-weight: 600;
+    color: #333;
+}
+
+.modal-footer {
+    border-top: 1px solid #e9ecef;
+    padding-top: 15px;
+}
+
+
+.modal-body .container {
+    padding: 10px;
+    font-size: 14px;
+}

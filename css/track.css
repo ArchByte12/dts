@@ -1,0 +1,131 @@
+  /* table */
+  table {
+    width: calc(100% - 250px);
+    margin-top: 20px;
+  }
+
+  .content h3 {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  /* paginationLinks */
+  .pagination,
+  .paginationLinks {
+    display: flex;
+    /* place to right */
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  /* page-link, page-item */
+  .page-link,
+  .page-item {
+    color: #0a488a;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  /* th */
+  th {
+    font-weight: 400;
+    text-align: left;
+    font-size: 12px;
+  }
+
+  /* td */
+  td {
+    font-size: 11px;
+  }
+
+  /* search-container */
+  .search-container {
+    margin-top: 20px;
+  }
+
+  .search-container label {
+    font-size: 12px;
+  }
+
+  /* id searchInput */
+  #searchInput {
+    width: 100%;
+    padding: 5px;
+    font-size: 11px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-family: "FontAwesome", "Roboto";
+  }
+
+  #searchInput:focus {
+    font-family: "Sans-serif";
+  }
+
+  /* btn-action */
+  .x-btn-action {
+    /* modern tale button */
+    background-color: #0a488a;
+    color: #fff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+    font-size: 10px;
+    border: none;
+  }
+
+
+  /* btn-action */
+  .btn-danger {
+    /* modern tale button */
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+    font-size: 10px;
+    border: none;
+  }
+
+  #detailsModal #outgoingModalFooter button {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    width: 50px;
+    font-size: 10px;
+  }
+
+  #detailsModal #incomingModalFooter button {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    width: auto;
+    font-size: 10px;
+  }
+
+  /* Style for the clickable Doc. No. links */
+  .table-container a {
+    color: #007bff;
+    /* Bootstrap primary color */
+    text-decoration: none;
+    /* Remove underline */
+    font-weight: bold;
+    /* Make it bold */
+    font-size: 12px;
+  }
+
+  .table-container a:hover {
+    color: #0056b3;
+    /* Darker shade on hover */
+    text-decoration: none;
+    /* Add underline on hover */
+    cursor: pointer;
+    /* Show pointer cursor */
+  }
