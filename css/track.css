@@ -1,7 +1,20 @@
-  /* table */
+/* table */
   table {
     width: calc(100% - 250px);
     margin-top: 20px;
+  }
+
+  table tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+
+  table tr:nth-child(even) {
+    background-color: #ffffff;
+  }
+
+  table tr:hover {
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
   }
 
   .content h3 {
@@ -49,16 +62,11 @@
 
   /* id searchInput */
   #searchInput {
-    width: 100%;
+    width: 25%;
     padding: 5px;
     font-size: 11px;
     border-radius: 5px;
     border: 1px solid #ddd;
-    font-family: "FontAwesome", "Roboto";
-  }
-
-  #searchInput:focus {
-    font-family: "Sans-serif";
   }
 
   /* btn-action */
@@ -128,4 +136,57 @@
     /* Add underline on hover */
     cursor: pointer;
     /* Show pointer cursor */
+  }
+
+  /* CSS for Dot Tracking Line */
+  .tracking-timeline {
+    position: relative;
+    padding-left: 20px;
+    list-style: none;
+  }
+
+  .tracking-timeline ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  .tracking-timeline li {
+    position: relative;
+    margin-bottom: 5px;
+    padding-left: 20px;
+  }
+
+  .tracking-timeline li:last-child::after {
+    display: none;
+  }
+
+  .timeline-content {
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .timeline-content .dot {
+    position: absolute;
+    left: -20px;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    background: #007bff;
+    border-radius: 50%;
+  }
+
+  .timeline-content .details {
+    margin-left: 10px;
+  }
+
+  .timeline-content{
+    font-size: 10px;
+  }
+
+  .timeline-content h6{
+    font-size: 12px;
+  }
+
+  #notificationBanner{
+    font-size: 12px;
   }

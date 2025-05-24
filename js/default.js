@@ -1,3 +1,5 @@
+var $data = JSON.parse(localStorage.getItem('loginDetails'));
+
 // modals
 $(document).ready(function () {
     // Load the modal.html content dynamically
@@ -26,7 +28,6 @@ $(document).ready(function () {
 
         const $logoutDropdown = $('#user-settings');
         // set dropdown text
-        var $data = JSON.parse(localStorage.getItem('loginDetails'));
         var $userFullname = $data.fullname;
         const $thumbnail = getThumbnail($userFullname);
         $('#dropdown').html($thumbnail);
@@ -90,16 +91,6 @@ $(document).ready(function () {
     });
 });
 
-// active nav
-$(document).ready(function () {
-    const $navItems = $('li');
-    $navItems.click(function () {
-        alert('clicked');
-        $navItems.removeClass('active');
-        $(this).addClass('active');
-    });
-});
-
 function toggleNav() {
     const $sideNav = $('#sideNav');
     $sideNav.toggleClass('active');
@@ -154,11 +145,146 @@ $('#btnDelete').on('click', function () {
     });
 });
 
-// dateformatter DD-MMM-YY
+// dateformatter DD-MMM-YYYY
 function dateFormatter(date) {
     const dateObj = new Date(date);
-    const day = String(dateObj.getDate()).padStart(2, '0');
-    const month = dateObj.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-    const year = String(dateObj.getFullYear()).slice(-2); // Get the last two digits of the year
+    const day = String(dateObj.getDate()).padStart(2, '0'); // Get day with leading zero
+    const month = dateObj.toLocaleString('en-US', { month: 'short' }).toUpperCase(); // Get short month name in uppercase
+    const year = dateObj.getFullYear(); // Get full year (YYYY)
     return `${day}-${month}-${year}`;
 }
+
+// dateformatter DD-MMM-YYYY HH:mm:ss
+function dateFormatterWithTimeStamp(dateString) {
+    const dateObj = new Date(dateString);
+
+    // Format date
+    const day = String(dateObj.getDate()).padStart(2, '0'); // Get day with leading zero
+    const month = dateObj.toLocaleString('en-US', { month: 'short' }).toUpperCase(); // Get short month name in uppercase
+    const year = dateObj.getFullYear(); // Get full year (YYYY)
+
+    // Format time
+    const hours = String(dateObj.getHours()).padStart(2, '0'); // Get hours with leading zero
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0'); // Get minutes with leading zero
+    const seconds = String(dateObj.getSeconds()).padStart(2, '0'); // Get seconds with leading zero
+
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+}
+
+// insert_tracking function
+/**
+ * Function to insert tracking data
+ * @param {string} trackingNumber - The tracking number of the document
+ * @param {string} office - The office performing the action
+ * @param {string} action - The action performed (e.g., "Document Created")
+ * @param {string} remarks - Additional remarks or comments
+ */
+function insert_tracking(trackingNumber, office, action, remarks) {
+    $.ajax({
+        url: 'conn/insert_tracking.php',
+        method: 'POST',
+        data: {
+            tracking_number: trackingNumber,
+            office: office,
+            action: action,
+            remarks: remarks
+        },
+        success: function (response) {
+            console.log('Raw response from insert_tracking.php:', response); // Debugging
+            try {
+                const result = JSON.parse(response);
+                if (result.status === 'success') {
+                    console.log('Tracking data inserted successfully:', result.message);
+                } else {
+                    console.error('Error inserting tracking data:', result.message);
+                }
+            } catch (error) {
+                console.error('Error parsing JSON response:', error);
+            }
+        },
+        error: function (error) {
+            console.error('AJAX error:', error);
+        }
+    });
+}
+
+/**
+ * Function to fetch tracking data
+ * @param {string} trackingNumber - The tracking number of the document
+ * @param {function} callback - A callback function to handle the fetched data
+ */
+function fetch_tracking(trackingNumber, callback) {
+    console.log('Fetching tracking data for:', trackingNumber); // Debugging
+    $.ajax({
+        url: 'conn/fetch_tracking.php',
+        method: 'POST',
+        data: {
+            tracking_number: trackingNumber
+        },
+        success: function (response) {
+            console.log('Response from fetch_tracking.php:', response); // Debugging
+            try {
+                const result = JSON.parse(response);
+                if (result.status === 'success') {
+                    console.log('Tracking data fetched successfully:', result.data); // Debugging
+                    callback(result.data); // Pass the fetched data to the callback function
+                } else {
+                    console.error('Error fetching tracking data:', result.message);
+                    callback([]); // Pass an empty array if there's an error
+                }
+            } catch (error) {
+                console.error('Error parsing JSON response:', error);
+                callback([]); // Pass an empty array if JSON parsing fails
+            }
+        },
+        error: function (error) {
+            console.error('AJAX error:', error);
+            callback([]); // Pass an empty array if AJAX fails
+        }
+    });
+}
+
+/**
+ * Function to populate the tracking timeline
+ * @param {Array} trackingHistory - Array of tracking history objects
+ */
+function populateTrackingTimeline(trackingHistory) {
+    console.log('Populating tracking timeline with data:', trackingHistory); // Debugging
+    const timeline = document.getElementById('trackingTimeline');
+    timeline.innerHTML = ''; // Clear existing entries
+
+    // Check if trackingHistory is valid
+    if (!Array.isArray(trackingHistory)) {
+        console.error('Invalid trackingHistory:', trackingHistory); // Debugging
+        timeline.innerHTML = '<p>No tracking history available.</p>';
+        return;
+    }
+
+    trackingHistory.forEach(entry => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div class="timeline-content">
+                <span class="dot"></span>
+                <div class="details">
+                    <h6>${entry.date}</h6>
+                    <p><strong>Office:</strong> ${entry.office}</p>
+                    <p><strong>Action:</strong> ${entry.action}</p>
+                    <p><strong>Remarks:</strong> ${entry.remarks || 'N/A'}</p>
+                </div>
+            </div>
+        `;
+        timeline.appendChild(li);
+    });
+}
+
+// Ensure only one dropdown is open at a time
+document.querySelectorAll('[data-toggle="collapse"]').forEach(button => {
+    button.addEventListener('click', function () {
+        const target = this.getAttribute('data-target');
+        document.querySelectorAll('.collapse').forEach(collapse => {
+            if (collapse.id !== target.replace('#', '') && collapse.classList.contains('show')) {
+                $(collapse).collapse('hide');
+            }
+        });
+    });
+});

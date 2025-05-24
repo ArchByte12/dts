@@ -1,7 +1,11 @@
 $(document).ready(function () {
+    var $data = JSON.parse(localStorage.getItem('loginDetails'));
+    var office = $data.office;
+
     // Handle "Receive" button click
     $('#btnReceive').click(function () {
         const trackingNumber = $('#modalTrackingNumber').text();
+        const currentStatus = $('#modalStatus').text();
 
         // Show confirmation dialog
         Swal.fire({
@@ -16,46 +20,93 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 const status = 'Received';
-                // change button text to "Processing..."
-                $('#btnReceive').html('Processing...');
-                updateStatus(trackingNumber, status);
+                if (currentStatus === 'Received') {
+                    Swal.fire({
+                        title: 'Error!',
+                        icon: "error",
+                        text: `Document with Tracking Number: ${trackingNumber} is already received.`,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return; // Exit the function if already received
+                } else {
+                    // change button text to "Processing..."
+                    $('#btnReceive').html('Processing...');
+                    // Insert tracking record
+                    insert_tracking(trackingNumber, office, 'Document Received', 'Document Received');
+
+                    updateStatus(trackingNumber, status, null);
+                }
             }
         });
     });
 
-    // Handle "Reject/Return" button click
     $('#btnReject').click(function () {
         const trackingNumber = $('#modalTrackingNumber').text();
+        const currentStatus = $('#modalStatus').text();
 
-        // Show confirmation dialog
+        // Hide the Bootstrap modal
+        $('#detailsModal').modal('hide');
+
+        // Show SweetAlert2 modal
         Swal.fire({
             title: 'Are you sure?',
             text: `Do you want to reject/return the document with Tracking Number: ${trackingNumber}?`,
             icon: 'warning',
+            input: 'text',
+            inputLabel: 'Reason for rejection/return',
+            inputPlaceholder: 'Enter the reason here...',
+            inputAttributes: {
+                'aria-label': 'Type your reason here'
+            },
             showCancelButton: true,
             confirmButtonText: 'Yes, Reject it!',
             cancelButtonText: 'Cancel',
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
+            inputValidator: (value) => {
+                if (!value.trim()) { // Ensure the input is not empty or just whitespace
+                    return 'You need to enter a reason!';
+                }
+                return null; // Return null if validation passes
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 const status = 'Rejected';
-                // change button text to "Processing..."
-                $('#btnReject').html('Processing...');
-                updateStatus(trackingNumber, status);
+                const reason = result.value; // Capture the input value
+                if (currentStatus === 'Rejected') {
+                    Swal.fire({
+                        title: 'Error!',
+                        icon: "error",
+                        text: `Document with Tracking Number: ${trackingNumber} is already rejected.`,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return; // Exit the function if already rejected
+                } else {
+                    // Change button text to "Processing..."
+                    $('#btnReject').html('Processing...');
+                    // Insert tracking record
+                    insert_tracking(trackingNumber, office, 'Document Rejected', reason);
+                    updateStatus(trackingNumber, status, reason); // Pass the reason to the updateStatus function
+                }
             }
+
+            // Reopen the Bootstrap modal after SweetAlert2 is closed
+            $('#detailsModal').modal('show');
         });
     });
 
     // receive or reject/return document ajax request
     // Function to send the AJAX request for receiving the document
-    function updateStatus(trackingNumber, status) {
+    function updateStatus(trackingNumber, status, reason) {
         $.ajax({
             url: 'conn/update.php',
             method: 'POST',
             data: {
                 tracking_number: trackingNumber,
-                status: status
+                status: status,
+                remarks: reason
             },
             success: function (response) {
                 const data = JSON.parse(response); // Parse the JSON response
@@ -137,8 +188,13 @@ $(document).ready(function () {
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        const status = 'Pending';
                         const destination = result.value; // Get the selected destination
                         forwardDocument(trackingNumber, destination);
+                        // Insert tracking record
+                        insert_tracking(trackingNumber, office, 'Document Forwarded', `Forwarded to ${destination}, status back to Pending`);
+                        // Update status to Pending
+                        updateStatus(trackingNumber, status, null);
                     }
                 });
             }
@@ -208,6 +264,8 @@ $(document).ready(function () {
                 // change button text to "Processing..."
                 $('#btnMarkTerminal').html('Processing...');
                 updateTerminal(trackingNumber, terminal_flag);
+                // Insert tracking record
+                insert_tracking(trackingNumber, office, 'Document Marked as Terminal', 'Document Marked as Terminal');
             }
         });
     });

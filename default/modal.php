@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnUpdate">Update</button>
+                <!-- <button type="button" class="btn btn-primary" id="btnUpdate">Update</button> -->
             </div>
         </div>
     </div>

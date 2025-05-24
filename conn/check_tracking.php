@@ -20,7 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'document_title' => $document['document_title'],
             'deadline' => $document['deadline'],
             'priority_status' => $document['priority_status'],
-            'document_origin' => $document['document_origin']
+            'status' => $document['status'],
+            'document_origin' => $document['document_origin'],
+            'document_destination' => $document['document_destination'],
+            'remarks' => $document['remarks'],
         ]);
     } else {
         echo json_encode(['exists' => false]);

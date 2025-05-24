@@ -54,7 +54,8 @@ function deleteByTrackingNumber(trackingNumber, callback) {
 }
 
 // Update record by tracking number
-function updateByTrackingNumber(trackingNumber, documentDestination, documentTitle, deadline, priorityStatus, callback) {
+function updateByTrackingNumber(trackingNumber, documentDestination, documentTitle, deadline, priorityStatus,
+    notes_update, attachedLink, callback) {
     $.ajax({
         url: 'conn/update.php',
         method: 'POST',
@@ -63,7 +64,9 @@ function updateByTrackingNumber(trackingNumber, documentDestination, documentTit
             document_destination: documentDestination,
             document_title: documentTitle,
             deadline: deadline,
-            priority_status: priorityStatus
+            priority_status: priorityStatus,
+            notes: notes_update,
+            attached_link: attachedLink
         },
         success: function (response) {
             if (response) {

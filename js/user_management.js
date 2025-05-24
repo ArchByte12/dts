@@ -161,6 +161,23 @@ $('#email').on('blur', function () {
     }
 });
 
+//password input
+$('#EditConfirmPassword').on('blur', function () {
+    const password = $('#EditPassword').val();
+    const confirmPassword = $(this).val();
+
+    if (password !== confirmPassword) {
+        $('#EditConfirmPassword').addClass('is-invalid');
+        $('#UpdateUserForm').next('.invalid-feedback').text("Warning: Passwords do not match").show();
+        // clear the confirm password field
+        $('#EditConfirmPassword').val('');
+        $('#EditConfirmPassword').focus();
+    }else{
+        $('#UpdateUserForm').removeClass('is-invalid');
+        $('#EditConfirmPassword').next('.invalid-feedback').hide();
+    }
+});
+
 function checkUserExists(field, value) {
     $.ajax({
         url: 'conn/check_user.php',
@@ -208,7 +225,7 @@ document.getElementById('saveChanges').addEventListener('click', function () {
             username: form.username.value,
             fullname: form.fullname.value,
             email: form.email.value,
-            office: form.office.value,
+            office: form.getOffice.value,
             position: form.position.value,
             user_type: form.user_type.value,
             password: password
@@ -284,7 +301,8 @@ document.getElementById('updateChanges').addEventListener('click', function () {
             email: form.EditEmail.value,
             office: form.EditOffice.value,
             position: form.EditPosition.value,
-            user_type: form.EditUser_type.value
+            user_type: form.EditUser_type.value,
+            password: form.EditPassword.value
         };
         // Show loading indicator
         saveButton.disabled = true;
@@ -366,16 +384,26 @@ function editUser(username) {
     });
 }
 
+var $data = JSON.parse(localStorage.getItem('loginDetails'));
+
 // Open Edit User Modal and Populate Fields
 function openEditUserModal(userData) {
     // Populate modal fields with user data
-    $('#EditUsername').val(userData.username).prop('readonly', true);;
+    $('#EditUsername').val(userData.username).prop('readonly', true);
     $('#EditFullname').val(userData.fullname);
     $('#EditEmail').val(userData.email_address);
     $('#EditOffice').val(userData.office);
     $('#EditUser_type').val(userData.user_type);
     $('#EditPosition').val(userData.position);
 
+    //loginDetails user_type
+    var userType = $data.user_type;
+    //if user type is admin, disable the user type select
+    if (userType === 'Admin') {
+        $('#EditUser_type').prop('disabled', false);
+    } else {
+        $('#EditUser_type').prop('disabled', true);
+    }
     // Show the modal
     $('#editUserModal').modal('show');
 }

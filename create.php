@@ -26,13 +26,28 @@
         <div class="loader"></div>
     </div>
     <div id="default-container"></div>
+    <!-- Side Navigation -->
+    <nav class="side-nav" id="sideNav">
+        <ul>
+            <!-- dashboard -->
+            <li><a href="./dashboard"><i class="fa-solid fa-home"></i> Dashboard</a></li>
+            <!-- create, track, incoming, outgoing, terminal docs, maintenance and user management -->
+            <li class="active"><a href="./create"><i class="fa-solid fa-plus"></i> Create</a></li>
+            <li><a href="./track"><i class="fa-solid fa-search"></i> Track</a></li>
+            <li><a href="./incoming"><i class="fa-solid fa-inbox"></i> Incoming</a></li>
+            <li><a href="./outgoing"><i class="fa-solid fa-paper-plane"></i> Outgoing</a></li>
+            <li><a href="./terminal-docs"><i class="fa-solid fa-archive"></i> Terminal Docs</a></li>
+            <!-- <li><a href="./maintenance"><i class="fa-solid fa-cogs"></i> Maintenance</a></li> -->
+            <li><a href="./user-management"><i class="fa-solid fa-users"></i> User Management</a></li>
+        </ul>
+    </nav>
     <!-- modals -->
     <div id="modal-container"></div>
     <div class="content">
         <!-- Create Document | input field name Tracking Number, Document Title, Document Destination, Deadline and Priority Status. Create and reset button -->
         <div class="form">
             <h2>Create Document</h2>
-            <div class="form-container">
+            <div class="container">
                 <form method="POST" id="document-form">
                     <!-- Tracking Number Field -->
                     <div class="form-field">
@@ -72,6 +87,19 @@
                         </select>
                     </div>
 
+                    <!-- Notes Field -->
+                    <div class="form-field">
+                        <label for="notes"><i class="fas fa-comment-alt"></i> Notes:</label>
+                        <input type="text" id="notes" name="notes" placeholder="Enter notes here...">
+                    </div>
+
+                    <!-- Attached Link Field -->
+                    <div class="form-field">
+                        <label for="attached_link"><i class="fas fa-link"></i> Attached Link:</label>
+                        <input type="url" id="attached_link" name="attached_link" placeholder="https://example.com">
+                    </div>
+                    <!-- errorMessage -->
+                    <div class="error-message" id="error_message"></div>
                     <!-- Create and Reset Buttons -->
                     <div class="form-actions">
                         <button type="submit" id="create_button"><i class="fas fa-plus"></i> Create</button>

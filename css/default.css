@@ -3,7 +3,7 @@ body {
   font-family: 'Roboto', sans-serif;
   line-height: 1.5;
   color: #333;
-  background-color: #f4f4f4;
+  background-color: #e9ecef;
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -24,7 +24,6 @@ body {
   z-index: 1000;
   /* header line */
   border-bottom: 1px solid #ddd;
-  font-weight: 300;
 }
 
 /* Hamburger menu */
@@ -129,20 +128,48 @@ a {
   text-align: center;
 }
 
+.btn-link{
+  font-size: 12px;
+  padding: 10px;
+  font-weight: 400;
+  }
+
+  #modalDocumentTitle{
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  #modalTrackingNumber{
+    font-size: 18px;
+  }
+
+.btn-link:hover{
+  text-decoration: none !important;
+}
+
+.modal-body .container .row{
+  font-size: 12px;
+  padding: 5px;
+  /* decoration to remove */
+  text-decoration: none;
+}
+
 /* Side navigation styles */
 .side-nav {
   position: absolute;
   left: -250px;
   /* Hidden by default */
   width: 250px;
-  height: calc(95% - 50px);
-  /* height: 100%; */
-  background-color: #fff;
+  height: 100%;
+  /* background-color: #fff; */
+  background-color: #f4f4f4;
   transition: 0.3s;
   z-index: 999;
   /* Right line */
   border-right: 1px solid #ddd;
   border-radius: 10px;
+  top: 15%;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -158,7 +185,7 @@ a {
 
 .side-nav ul li {
   padding: 10px 20px;
-  border-bottom: 1px solid #444;
+  /* border-bottom: 1px solid #444; */
 }
 
 .side-nav ul li a {
@@ -175,9 +202,19 @@ a {
 
 /* side nav i */
 .side-nav ul li:hover {
-  background-color: #f4f4f4fb;
+  background-color: #ccc;
   /* move to right */
-  padding-left: 30px;
+  margin: 10px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+/* active nav */
+.side-nav ul li.active {
+  background-color: #fff;
+  /* move to right */
+  margin: 10px;
+  border-radius: 10px;
   transition: 0.3s;
 }
 
@@ -192,6 +229,12 @@ a {
   display: flex;
   justify-content: center;
   width: 100%;
+  padding: 10px;
+}
+
+.content .container {
+  background-color: #fff;
+  border-radius: 10px;
   padding: 20px;
 }
 
@@ -213,7 +256,8 @@ a {
   cursor: pointer;
 }
 
-#logoutModal-x .first-row, .second-row {
+#logoutModal-x .first-row,
+.second-row {
   display: flex;
   justify-content: last baseline;
   align-items: center;
@@ -223,7 +267,8 @@ a {
   /* border-radius: 10px; */
 }
 
-#logoutModal-x .first-row .x-p, .second-row .x-p {
+#logoutModal-x .first-row .x-p,
+.second-row .x-p {
   padding: 5px !important;
   font-size: 12px !important;
   font-weight: 400;
@@ -232,7 +277,8 @@ a {
 }
 
 /* hover */
-.first-row:hover, .second-row:hover {
+.first-row:hover,
+.second-row:hover {
   background-color: #f4f4f4;
 }
 
@@ -243,14 +289,19 @@ a {
   font-weight: 700;
 }
 
+#remarksDetails a{
+  font-size: 12px;
+  /* hyperlink */
+  text-decoration:underline;
+  color: #007bff;
+}
 /* sideNav active class */
-.side-nav .active {
-  /* text color */
+/* .side-nav .active {
   color: #333;
   font-weight: 700;
-}
+} */
 
-.header_logo{
+.header_logo {
   height: auto;
   width: 120px;
 }
@@ -276,30 +327,55 @@ a {
   position: relative;
   clip-path: inset(-40px 0 -5px)
 }
+
 .loader:before {
   content: "";
   position: absolute;
   inset: auto calc(50% - 17px) 0;
   height: 50px;
-  --g:no-repeat linear-gradient(#ccc 0 0);
-  background: var(--g),var(--g),var(--g),var(--g);
+  --g: no-repeat linear-gradient(#ccc 0 0);
+  background: var(--g), var(--g), var(--g), var(--g);
   background-size: 16px 14px;
   animation:
     l7-1 2s infinite linear,
     l7-2 2s infinite linear;
 }
+
 @keyframes l7-1 {
+
   0%,
-  100%  {background-position: 0 -50px,100% -50px}
-  17.5% {background-position: 0 100%,100% -50px,0 -50px,100% -50px}
-  35%   {background-position: 0 100%,100% 100% ,0 -50px,100% -50px}
-  52.5% {background-position: 0 100%,100% 100% ,0 calc(100% - 16px),100% -50px}
+  100% {
+    background-position: 0 -50px, 100% -50px
+  }
+
+  17.5% {
+    background-position: 0 100%, 100% -50px, 0 -50px, 100% -50px
+  }
+
+  35% {
+    background-position: 0 100%, 100% 100%, 0 -50px, 100% -50px
+  }
+
+  52.5% {
+    background-position: 0 100%, 100% 100%, 0 calc(100% - 16px), 100% -50px
+  }
+
   70%,
-  98%  {background-position: 0 100%,100% 100% ,0 calc(100% - 16px),100% calc(100% - 16px)}
+  98% {
+    background-position: 0 100%, 100% 100%, 0 calc(100% - 16px), 100% calc(100% - 16px)
+  }
 }
+
 @keyframes l7-2 {
-  0%,70% {transform:translate(0)}
-  100%  {transform:translate(200%)}
+
+  0%,
+  70% {
+    transform: translate(0)
+  }
+
+  100% {
+    transform: translate(200%)
+  }
 }
 
 .modal-header.bg-primary {
@@ -334,8 +410,8 @@ a {
 }
 
 
-.modal-body .container  {
-  padding: 10px;   
+.modal-body .container {
+  padding: 10px;
   font-size: 14px;
 }
 
@@ -358,4 +434,31 @@ a {
 
 #manageAccountModal .modal-body {
   padding: 20px;
+}
+
+/* Fix for side navigation spacing issue */
+@media (min-width: 768px) {
+  .side-nav {
+      top: 100px;
+  }
+}
+
+/* Fix for side navigation spacing issue for larger screens */
+@media (min-width: 912px) {
+  .side-nav {
+      top: 100px;
+  }
+}
+
+/* Fix for side navigation spacing issue for smaller screens */
+@media (max-width: 915px) and (min-width: 412px) {
+    .side-nav {
+      top: 100px;
+  }
+}
+/* Fix for side navigation spacing issue for smaller screens */
+@media (max-width: 844px) and (min-width: 390px) {
+    .side-nav {
+      top: 100px;
+  }
 }

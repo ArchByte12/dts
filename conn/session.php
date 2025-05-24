@@ -16,7 +16,8 @@ if (!isset($_SESSION['username'])) {
         'fullname' => $_SESSION['fullname'],
         'office' => $_SESSION['office'],
         'position' => $_SESSION['position'],
-        'email_address' => $_SESSION['email_address']
+        'email_address' => $_SESSION['email_address'],
+        'user_type' => $_SESSION['user_type']
     ));
 }
 ?>

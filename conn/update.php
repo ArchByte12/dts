@@ -9,15 +9,17 @@ $collection = $database->selectCollection('documents');
 // update document status
 if (
     isset($_POST['tracking_number']) &&
-    isset($_POST['status'])
+    isset($_POST['status']) &&
+    isset($_POST['remarks'])
 ) {
     $tracking_number = $_POST['tracking_number'];
     $status = $_POST['status'];
     $updated_date = date('Y-m-d H:i:s');
+    $remarks = isset($_POST['remarks']) ? $_POST['remarks'] : ''; // Optional field
 
     $document = $collection->updateOne(
         ['tracking_number' => $tracking_number],
-        ['$set' => ['status' => $status, 'updated_date' => $updated_date]]
+        ['$set' => ['status' => $status, 'updated_date' => $updated_date , 'remarks' => $remarks]]
     );
 
     if ($document) {
@@ -57,11 +59,12 @@ if (
     $tracking_number = $_POST['tracking_number'];
     $terminal_flag = 1;
     $incoming_flag = 0;
+    $outgoing_flag = 0;
     $updated_date = date('Y-m-d H:i:s');
 
     $document = $collection->updateOne(
         ['tracking_number' => $tracking_number],
-        ['$set' => ['terminal_flag' => $terminal_flag, 'incoming_flag' => $incoming_flag,  'updated_date' => $updated_date]]
+        ['$set' => ['terminal_flag' => $terminal_flag, 'incoming_flag' => $incoming_flag, 'outgoing_flag' => $outgoing_flag,  'updated_date' => $updated_date]]
     );
 
     if ($document) {
@@ -86,6 +89,8 @@ if (
     $deadline = $_POST['deadline'];
     $priorityStatus = $_POST['priority_status'];
     $updatedDate = date('Y-m-d H:i:s'); // Current timestamp
+    $notes = isset($_POST['notes']) ? $_POST['notes'] : null; // Optional field
+    $attachedLink = isset($_POST['attached_link']) ? $_POST['attached_link'] : null; // Optional field
 
     // Select the database and collection
     $database = $client->selectDatabase('dts_db');
@@ -99,7 +104,9 @@ if (
             'document_destination' => $documentDestination,
             'deadline' => $deadline,
             'priority_status' => $priorityStatus,
-            'updated_date' => $updatedDate
+            'updated_date' => $updatedDate,
+            'notes' => $notes,
+            'attached_link' => $attachedLink
         ]]
     );
 

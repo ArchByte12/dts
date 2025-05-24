@@ -1,11 +1,15 @@
-  .content .form-container {
+  .content .container {
     margin: 0 auto;
     width: auto;
   }
 
   .content h2 {
-    font-size: 18px;
-    margin-bottom: 20px;
+    font-size: 16px;
+    /* margin-bottom: 20px; */
+    background-color:#fff;
+    padding: 10px;
+    font-weight: 700;
+    border-radius: 5px;
   }
 
   .content .form-field {
@@ -21,14 +25,20 @@
     width: 100%;
     text-align: left;
     margin-right: 10px;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 10px;
+  }
+
+  #error_message{
+    color: red;
+    font-size: 11px;
+    margin-top: 5px;
   }
 
   .content .form-field input,
   .content .form-field select {
     padding: 10px;
-    font-size: 14px;
+    font-size: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
     transition: border-color 0.3s ease;

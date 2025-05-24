@@ -66,3 +66,21 @@
     font-size: 12px !important;
     box-sizing: border-box;
 }
+.swal2-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px !important;
+    box-sizing: border-box;
+}
+
+.swal2-input-label {
+    font-size: 12px;
+    /* Label font size */
+    color: #333;
+    /* Dark text color */
+    margin-bottom: 5px;
+    /* Space between label and input */
+}

@@ -217,3 +217,15 @@ footer {
     padding: 10px;
     font-size: 14px;
 }
+
+#errorMessage {
+    color: red;
+    font-size: 11px;
+    margin-top: 10px;
+    display: flex;
+}
+
+.g-recaptcha {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}

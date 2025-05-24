@@ -6,6 +6,10 @@
   /* padding-left: 30px; */
 }
 
+.main-content h3 {
+  font-size: 18px;
+}
+
 /* Dashboard Layout */
 .dashboard {
   display: grid;
@@ -15,21 +19,85 @@
 
 .dashboard-card {
   background: #fff;
-  padding: 20px;
+  padding: 10px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  font-size: 18px;
+  margin-left: 0;
+  display: flex;
+  padding: 20px;
 }
 
 .dashboard-card h6 {
+  font-size: 12px;
+  color: #ccc;
+}
+
+/* .dashboard-icon i {
+  font-size: 40px;
+  color: #0a488a;
+} */
+
+.dashboard-icon img{
+  width: 40px;
+  height: 40px;
+  /* color: #0a488a; */
+  margin-right: 10px;
+}
+
+.dashboard-icon{
+  width: 100%;
+  /* align items end */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dashboard-card span {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.main-content .chart-container {
+  background: #fff;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 20px);
+  height: 400px;
+}
+
+.dropdown #monthYearSelect {
+  /* padding: 10px; */
+  font-size: 12px;
+}
+
+.dropdown {
+  width: 100px;
   margin-top: 10px;
-  font-weight: 500;
+  margin-left: auto; /* Align to the right */
+  margin-right: 0; /* Ensure no extra margin on the right */
+  display: flex;
+  justify-content: flex-end; /* Align content to the right */
+}
+
+
+#pendingCircleGraph{
+  width: 50px !important;
+  height: 50px !important;
+  align-self: flex-end;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .dashboard {
     grid-template-columns: 1fr;
+  }
+}
+
+/* chart responsive */
+@media (max-width: 768px) {
+  .chart-container {
+    width: calc(100% - 20px);
+    margin: 0 auto;
   }
 }
