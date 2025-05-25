@@ -51,12 +51,16 @@ if (isset($_POST['history'])) {
 // get all documents count by type (incoming, outgoing, terminal)
 if (isset($_POST['getAllCount'])) {
     $document_origin = $_POST['document_origin'];
+
+    // Adjust filter logic
+    $matchFilter = ($document_origin === 'Records Section') ? [] : [
+        'document_origin' => $document_origin
+    ];
+
     // Query to count documents by type using flags
     $pipeline = [
         [
-            '$match' => [
-                'document_origin' => $document_origin
-            ]
+            '$match' => $matchFilter
         ],
         [
             '$group' => [
@@ -87,12 +91,16 @@ if (isset($_POST['getAllCount'])) {
 // get all documents count by type (incoming)
 if (isset($_POST['getAllIncomingCount'])) {
     $document_origin = $_POST['document_origin'];
+
+    // Adjust filter logic
+    $matchFilter = ($document_origin === 'Records Section') ? [] : [
+        'document_destination' => $document_origin
+    ];
+
     // Query to count documents by type using flags
     $pipeline = [
         [
-            '$match' => [
-                'document_destination' => $document_origin
-            ]
+            '$match' => $matchFilter
         ],
         [
             '$group' => [
@@ -125,6 +133,34 @@ if (isset($_POST['getCombinedCount'])) {
     $startDate = new MongoDB\BSON\UTCDateTime(strtotime("first day of $monthYear 00:00:00") * 1000);
     $endDate = new MongoDB\BSON\UTCDateTime(strtotime("last day of $monthYear 23:59:59") * 1000);
 
+    // Adjust filter logic for outgoing and terminal counts
+    $matchFilterOutgoing = ($document_origin === 'Records Section') ? [
+        'created_date_parsed' => [
+            '$gte' => $startDate,
+            '$lte' => $endDate
+        ]
+    ] : [
+        'created_date_parsed' => [
+            '$gte' => $startDate,
+            '$lte' => $endDate
+        ],
+        'document_origin' => $document_origin
+    ];
+
+    // Adjust filter logic for incoming count
+    $matchFilterIncoming = ($document_origin === 'Records Section') ? [
+        'created_date_parsed' => [
+            '$gte' => $startDate,
+            '$lte' => $endDate
+        ]
+    ] : [
+        'created_date_parsed' => [
+            '$gte' => $startDate,
+            '$lte' => $endDate
+        ],
+        'document_destination' => $document_origin
+    ];
+
     // Query for outgoing and terminal counts
     $pipelineOutgoing = [
         [
@@ -138,13 +174,7 @@ if (isset($_POST['getCombinedCount'])) {
             ]
         ],
         [
-            '$match' => [
-                'created_date_parsed' => [
-                    '$gte' => $startDate,
-                    '$lte' => $endDate
-                ],
-                'document_origin' => $document_origin
-            ]
+            '$match' => $matchFilterOutgoing
         ],
         [
             '$group' => [
@@ -168,13 +198,7 @@ if (isset($_POST['getCombinedCount'])) {
             ]
         ],
         [
-            '$match' => [
-                'created_date_parsed' => [
-                    '$gte' => $startDate,
-                    '$lte' => $endDate
-                ],
-                'document_destination' => $document_origin
-            ]
+            '$match' => $matchFilterIncoming
         ],
         [
             '$group' => [
@@ -214,34 +238,38 @@ if (isset($_POST['getCombinedCount'])) {
 if (isset($_POST['getAllCombineCounts'])) {
     $document_origin = $_POST['document_origin'];
 
+    // Adjust filter logic for outgoing and terminal counts
+    $matchFilterOutgoing = ($document_origin === 'Records Section') ? null : [
+        'document_origin' => $document_origin
+    ];
+
+    // Adjust filter logic for incoming count
+    $matchFilterIncoming = ($document_origin === 'Records Section') ? null : [
+        'document_destination' => $document_origin
+    ];
+
     // Query for outgoing and terminal counts
-    $pipelineOutgoing = [
-        [
-            '$match' => [
-                'document_origin' => $document_origin
-            ]
-        ],
-        [
-            '$group' => [
-                '_id' => null,
-                'outgoingCount' => ['$sum' => ['$toInt' => '$outgoing_flag']],
-                'terminalDocsCount' => ['$sum' => ['$toInt' => '$terminal_flag']]
-            ]
+    $pipelineOutgoing = [];
+    if ($matchFilterOutgoing) {
+        $pipelineOutgoing[] = ['$match' => $matchFilterOutgoing];
+    }
+    $pipelineOutgoing[] = [
+        '$group' => [
+            '_id' => null,
+            'outgoingCount' => ['$sum' => ['$toInt' => '$outgoing_flag']],
+            'terminalDocsCount' => ['$sum' => ['$toInt' => '$terminal_flag']]
         ]
     ];
 
     // Query for incoming count
-    $pipelineIncoming = [
-        [
-            '$match' => [
-                'document_destination' => $document_origin
-            ]
-        ],
-        [
-            '$group' => [
-                '_id' => null,
-                'incomingCount' => ['$sum' => ['$toInt' => '$incoming_flag']]
-            ]
+    $pipelineIncoming = [];
+    if ($matchFilterIncoming) {
+        $pipelineIncoming[] = ['$match' => $matchFilterIncoming];
+    }
+    $pipelineIncoming[] = [
+        '$group' => [
+            '_id' => null,
+            'incomingCount' => ['$sum' => ['$toInt' => '$incoming_flag']]
         ]
     ];
 
@@ -275,24 +303,19 @@ if (isset($_POST['getAllCombineCounts'])) {
 if (isset($_POST['getPendingCount'])) {
     $document_origin = $_SESSION['office'];
 
-    // Fetch all documents for debugging
-    $allDocumentsCursor = $collection->find([]);
-    foreach ($allDocumentsCursor as $doc) {
-        error_log("All Document: " . json_encode($doc));
-    }
-
-    // Fetch documents matching document_destination for debugging
-    $rawDataCursor = $collection->find(['document_destination' => $document_origin]);
-    foreach ($rawDataCursor as $rawDocument) {
-        error_log("Raw Document: " . json_encode($rawDocument));
-    }
+    // Adjust filter logic
+    $matchFilter = ($document_origin === 'Records Section') ? [
+        'status' => 'Pending', // Return all documents with "Pending" status
+        'incoming_flag' => 1
+    ] : [
+        'document_destination' => $document_origin,
+        'status' => 'Pending',
+        'incoming_flag' => 1
+    ];
 
     $pipeline = [
         [
-            '$match' => [
-                'document_destination' => $document_origin, // Ensure filtering by destination
-                'status' => ['$in' => ['Pending', 'Received']] // Filter only relevant statuses
-            ]
+            '$match' => $matchFilter
         ],
         [
             '$group' => [
@@ -315,8 +338,7 @@ if (isset($_POST['getPendingCount'])) {
     $cursor = $collection->aggregate($pipeline);
 
     $counts = [
-        'pendingCount' => 0,
-        'completedCount' => 0
+        'pendingCount' => 0
     ];
 
     foreach ($cursor as $document) {
@@ -325,8 +347,6 @@ if (isset($_POST['getPendingCount'])) {
 
         if (isset($document['status']) && $document['status'] === 'Pending') {
             $counts['pendingCount'] = $document['count'];
-        } elseif (isset($document['status']) && $document['status'] === 'Received') {
-            $counts['completedCount'] = $document['count'];
         }
     }
 

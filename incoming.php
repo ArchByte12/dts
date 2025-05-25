@@ -194,6 +194,15 @@
         var $data = JSON.parse(localStorage.getItem('loginDetails'));
         // get and set from localStorage
         var office = $data.office;
+
+        // Show or hide the btnMarkTerminal based on office
+        if (office === 'Records Section') {
+            $('#btnMarkTerminal').show();
+        } else {
+            $('#btnMarkTerminal').hide();
+        }
+
+
         // Function to fetch data from the server
         function fetchData() {
             $.ajax({

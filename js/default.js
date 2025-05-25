@@ -1,4 +1,39 @@
-var $data = JSON.parse(localStorage.getItem('loginDetails'));
+// Reusable function to get login details from localStorage
+function getLoginDetails() {
+    const loginDetails = localStorage.getItem('loginDetails');
+    return loginDetails ? JSON.parse(loginDetails) : null;
+}
+
+var $data = getLoginDetails();
+var sessionOffice = $data ? $data.office : null;
+
+// If sessionOffice is null or not found, fetch details from session.php
+if (!sessionOffice) {
+    console.warn("sessionOffice is null or not found. Fetching details from session.php...");
+    fetch('conn/session.php')
+        .then(response => response.json())
+        .then(loginDetails => {
+            if (loginDetails.status === 'success') {
+                localStorage.setItem('loginDetails', JSON.stringify(loginDetails));
+                sessionOffice = loginDetails.office;
+                console.log("sessionOffice updated:", sessionOffice);
+
+                // Re-run logic dependent on sessionOffice
+                if (sessionOffice !== "Records Section") {
+                    const terminalDocsNav = document.querySelector('a[href="./terminal-docs"]');
+                    if (terminalDocsNav) {
+                        terminalDocsNav.parentElement.remove();
+                    }
+                }
+            } else {
+                console.error("Failed to fetch session details. Redirecting to index...");
+                window.location.href = 'index';
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching session details:", error);
+        });
+}
 
 // modals
 $(document).ready(function () {
@@ -7,10 +42,7 @@ $(document).ready(function () {
     $.get('default/modal.php', function (data) {
         $modalContainer.html(data);
     });
-}
-);
 
-$(document).ready(function () {
     const $sidebarContainer = $('#default-container');
     // Load the sidebar.html content dynamically
     $.get('default/default-bar.php', function (data) {
@@ -39,8 +71,8 @@ $(document).ready(function () {
             } else {
                 $logoutDropdown.addClass('show');
 
-                // get and set fullname and email_address localStorage
-                var $data = JSON.parse(localStorage.getItem('loginDetails'));
+                // get and set fullname and email_address from loginDetails
+                var $data = getLoginDetails();
                 var $fullname = $data.fullname;
                 var $email_address = $data.email_address;
                 $('#fullname').text($fullname);
@@ -51,11 +83,9 @@ $(document).ready(function () {
 
                 // Open Manage Account Modal
                 $('#manageAccount').on('click', function () {
-
                     $(document).ready(function () {
-                        // localStorage
-                        var $data = JSON.parse(localStorage.getItem('loginDetails'));
-                        // get and set from localStorage
+                        // get and set from loginDetails
+                        var $data = getLoginDetails();
                         var $username = $data.username;
                         var $fullname = $data.fullname;
                         var $office = $data.office;
@@ -88,6 +118,14 @@ $(document).ready(function () {
                 }
             });
         });
+
+        // Check session office and remove terminal-docs side-nav if not Records Section
+        if (sessionOffice !== "Records Section") {
+            const terminalDocsNav = document.querySelector('a[href="./terminal-docs"]');
+            if (terminalDocsNav) {
+                terminalDocsNav.parentElement.remove();
+            }
+        }
     });
 });
 
@@ -115,7 +153,14 @@ function toggleNav() {
 
 // User fullname tumbnail for replace dropdown : Ex: Kent Abulag -> KA
 function getThumbnail(fullname) {
+    // var name = fullname.split(' ');
+    //if name has more than 2 parts, take the first two and has only one
     var name = fullname.split(' ');
+    if (name.length > 2) {
+        name = [name[0], name[1]]; // Take only the first two parts
+    }else{
+        name = [name[0], '']; // If only one part, use the first part and an empty string
+    }
     var thumbnail = name[0].charAt(0) + name[1].charAt(0);
     return thumbnail.toUpperCase();
 }

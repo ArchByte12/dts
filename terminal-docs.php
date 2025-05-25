@@ -25,6 +25,24 @@
         <div class="loader"></div>
     </div>
     <div id="default-container"></div>
+    <!-- Authorization Check -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginDetails = localStorage.getItem('loginDetails');
+            const sessionOffice = loginDetails ? JSON.parse(loginDetails).office : null;
+
+            if (!sessionOffice || sessionOffice !== "Records Section") {
+                document.body.innerHTML = `
+                    <div style="text-align: center; margin-top: 20%;">
+                        <h1>403 - Not Authorized</h1>
+                        <p>You are not authorized to access this page.</p>
+                        <a href="dashboard" style="text-decoration: none; color: blue; font-size:14px; padding:20px;">Go back to Dashboard</a>
+                    </div>
+                `;
+                console.warn("User is not authorized to access this page.");
+            }
+        });
+    </script>
     <!-- Side Navigation -->
     <nav class="side-nav" id="sideNav">
         <ul>

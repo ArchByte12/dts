@@ -17,7 +17,11 @@ document.addEventListener("DOMContentLoaded", function () {
             const pendingCount = data.pendingCount || 0;
             const completedCount = data.completedCount || 0;
 
-            $('.dashboard-card').eq(3).find('span').text(data.pendingCount);
+            if (office !== 'Records Section') {
+                $('.dashboard-card').eq(2).find('span').text(data.pendingCount);
+            } else {
+                $('.dashboard-card').eq(3).find('span').text(data.pendingCount);
+            }
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
